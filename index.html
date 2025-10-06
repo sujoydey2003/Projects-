@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Health Tracker</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo">❤</span>
+        <h1>Health Tracker</h1>
+      </div>
+      <div class="header-actions">
+        <input id="datePicker" type="date" />
+        <button id="themeToggle" class="btn" aria-label="Toggle theme">🌙</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-view="dashboardView">Dashboard</button>
+      <button class="tab" data-view="foodView">Food</button>
+      <button class="tab" data-view="waterView">Water</button>
+      <button class="tab" data-view="stepsView">Steps</button>
+      <button class="tab" data-view="workoutsView">Workouts</button>
+      <button class="tab" data-view="settingsView">Settings</button>
+    </nav>
+
+    <main class="container">
+      <section id="dashboardView" class="view active">
+        <div class="grid">
+          <div class="card">
+            <h2>Daily Summary</h2>
+            <div class="summary">
+              <div class="summary-item">
+                <div class="summary-label">Water</div>
+                <div class="summary-value"><span id="summaryWater">0</span> / <span id="summaryWaterGoal">2000</span> ml</div>
+                <div class="progress"><div id="summaryWaterProgress" class="progress-bar"></div></div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-label">Steps</div>
+                <div class="summary-value"><span id="summarySteps">0</span> / <span id="summaryStepsGoal">10000</span></div>
+                <div class="progress"><div id="summaryStepsProgress" class="progress-bar"></div></div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-label">Calories</div>
+                <div class="summary-value"><span id="summaryCalories">0</span> kcal</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>7-day Trends</h2>
+            <div class="charts">
+              <div class="chart">
+                <div class="chart-title">Water (ml)</div>
+                <div id="chartWater" class="bar-chart"></div>
+              </div>
+              <div class="chart">
+                <div class="chart-title">Steps</div>
+                <div id="chartSteps" class="bar-chart"></div>
+              </div>
+              <div class="chart">
+                <div class="chart-title">Calories</div>
+                <div id="chartCalories" class="bar-chart"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="foodView" class="view">
+        <div class="card">
+          <h2>Food Diary</h2>
+          <form id="foodForm" class="form-row">
+            <input id="foodName" type="text" placeholder="Food name" required />
+            <input id="foodCalories" type="number" inputmode="numeric" min="0" placeholder="Calories" required />
+            <button type="submit" class="btn">Add</button>
+          </form>
+          <div class="list" id="foodList"></div>
+          <div class="totals">Total: <strong id="foodTotal">0</strong> kcal</div>
+        </div>
+      </section>
+
+      <section id="waterView" class="view">
+        <div class="card">
+          <h2>Water</h2>
+          <div class="form-row">
+            <label>Goal (ml)</label>
+            <input id="waterGoalInput" type="number" inputmode="numeric" min="0" />
+            <button id="saveWaterGoal" class="btn btn-secondary" type="button">Save Goal</button>
+          </div>
+
+          <div class="progress with-label">
+            <div id="waterProgressBar" class="progress-bar"></div>
+          </div>
+          <div class="totals">
+            <span><strong id="waterTotal">0</strong> / <span id="waterGoal">2000</span> ml</span>
+          </div>
+
+          <div class="button-row">
+            <button id="addWater250" class="btn" type="button">+250 ml</button>
+            <button id="addWater500" class="btn" type="button">+500 ml</button>
+            <input id="waterCustom" class="inline-input" type="number" inputmode="numeric" min="0" placeholder="Custom ml" />
+            <button id="addWaterCustom" class="btn btn-secondary" type="button">Add</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="stepsView" class="view">
+        <div class="card">
+          <h2>Steps</h2>
+          <div class="form-row">
+            <label>Goal</label>
+            <input id="stepsGoalInput" type="number" inputmode="numeric" min="0" />
+            <button id="saveStepsGoal" class="btn btn-secondary" type="button">Save Goal</button>
+          </div>
+
+          <div class="progress with-label">
+            <div id="stepsProgressBar" class="progress-bar"></div>
+          </div>
+          <div class="totals">
+            <span><strong id="stepsTotal">0</strong> / <span id="stepsGoal">10000</span> steps</span>
+          </div>
+
+          <div class="form-row">
+            <input id="stepsToAdd" type="number" inputmode="numeric" min="0" placeholder="Add steps" />
+            <button id="addSteps" class="btn" type="button">Add</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="workoutsView" class="view">
+        <div class="grid">
+          <div class="card">
+            <h2>Today's Schedule</h2>
+            <div id="todaySchedule" class="list"></div>
+          </div>
+          <div class="card">
+            <h2>Log Workout</h2>
+            <form id="workoutForm" class="form-row">
+              <input id="workoutName" type="text" placeholder="Workout name" required />
+              <input id="workoutDuration" type="number" inputmode="numeric" min="0" placeholder="Minutes" required />
+              <button type="submit" class="btn">Add</button>
+            </form>
+            <div class="list" id="workoutList"></div>
+          </div>
+          <div class="card">
+            <h2>Schedule Workouts</h2>
+            <form id="scheduleForm" class="form-row">
+              <input id="scheduleName" type="text" placeholder="Workout name" required />
+              <input id="scheduleDuration" type="number" inputmode="numeric" min="0" placeholder="Minutes" required />
+              <select id="scheduleWeekday" required>
+                <option value="0">Sunday</option>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+              </select>
+              <button type="submit" class="btn btn-secondary">Add</button>
+            </form>
+            <div class="list" id="scheduleList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <div class="card">
+          <h2>Settings</h2>
+          <div class="form-grid">
+            <div>
+              <label for="defaultWaterGoal">Default water goal (ml)</label>
+              <input id="defaultWaterGoal" type="number" inputmode="numeric" min="0" />
+            </div>
+            <div>
+              <label for="defaultStepsGoal">Default steps goal</label>
+              <input id="defaultStepsGoal" type="number" inputmode="numeric" min="0" />
+            </div>
+            <div>
+              <label for="defaultCaloriesGoal">Default calories target (kcal)</label>
+              <input id="defaultCaloriesGoal" type="number" inputmode="numeric" min="0" />
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="saveDefaults" class="btn">Save Defaults</button>
+            <button id="clearData" class="btn btn-danger">Clear All Data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Built with ❤️ — your simple health companion</span>
+    </footer>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
